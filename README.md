@@ -26,13 +26,18 @@ Currently, the port *has* to be 8080 for both the container and the host. The Lo
 [Margarita](https://github.com/w0de/margarita) (saml-enabled-fork) is also bundled in but not enabled by default.
 You can run the Margarita Flask server either together with nginx, by opening both -p 8080 and -p 8089 or separately like so:
 ```
-/usr/bin/docker run --rm --name margarita  --mount type=bind,source=/data/saml,target=/home/app/saml --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH_ENABLED=True SAML_PATH=/home/app/saml python /home/app/margarita/run.py
+/usr/bin/docker run --rm --name margarita   --mount type=bind,source=/data/reposado,target=/reposado/html --mount type=bind,source=/data/saml,target=/home/app/saml --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH_ENABLED=False SAML_PATH=/home/app/saml python /home/app/margarita/run.py
 ```
 
 #Margarita SAML
 
 ```
 /usr/bin/docker run --rm --name margarita --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH=True SAML python /home/app/margarita/run.py
+```
+
+```
+/usr/bin/docker run --rm --name margarita --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH=FALSE SAML python /home/app/margarita/run.py
+```
 
 #TODO
 * passenger_wsgi script for margarita
