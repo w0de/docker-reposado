@@ -21,7 +21,7 @@ ADD preferences.plist /reposado/code/
 ADD reposado.conf /etc/nginx/sites-enabled/reposado.conf
 RUN pip install flask
 RUN pip install simplejson
-RUN git clone https://github.com/jessepeterson/margarita.git /home/app/margarita
+RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
 RUN ln -s /reposado/code/preferences.plist /home/app/margarita
 
