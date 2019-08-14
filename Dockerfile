@@ -24,6 +24,7 @@ RUN pip install simplejson
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
 RUN ln -s /reposado/code/preferences.plist /home/app/margarita
+RUN pip install -r /home/app/margarita/requirements.txt
 
 
 VOLUME /reposado/code
