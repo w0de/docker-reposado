@@ -14,7 +14,8 @@ CMD ["/sbin/my_init"]
 RUN apt-get update && apt-get install -y \
   python-pip \
   python-dev \
-  curl
+  curl \
+  libxmlsec1-dev
 
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
@@ -25,7 +26,6 @@ RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
 RUN ln -s /reposado/code/preferences.plist /home/app/margarita
 RUN pip install -r /home/app/margarita/requirements.txt
-
 
 VOLUME /reposado/code
 EXPOSE 8080
