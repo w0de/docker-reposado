@@ -26,7 +26,7 @@ RUN mkdir -p /reposado/metadata
 RUN pip install -r /home/app/margarita/requirements.txt
 
 VOLUME /reposado/code
-EXPOSE 8080
+EXPOSE 80
 
 RUN rm -f /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nginx/down
