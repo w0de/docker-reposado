@@ -8,9 +8,6 @@ FROM phusion/passenger-full:1.0.6
 ENV HOME /root
 ENV LOCALCATALOGURLBASE http://reposado
 
-# Use baseimage-docker's init process.
-CMD ["/sbin/my_init"]
-
 RUN apt-get update && apt-get install -y \
   python-pip \
   python-dev \
@@ -34,4 +31,4 @@ RUN rm -f /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nginx/down
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD entry.sh /entry.sh
-ENTRYPOINT ["/bin/bash", "/entry.sh"]
+CMD ["/bin/bash", "/entry.sh"]
