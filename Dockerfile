@@ -2,7 +2,7 @@
 # sure you lock down to a specific version, not to `latest`!
 # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
 # a list of version numbers.
-FROM nginx:stable-alpine
+FROM nginx:mainline
 
 # Set correct environment variables.
 ENV HOME /root
@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
   python-pip \
   python-dev \
   curl \
-  libxmlsec1-dev
+  libxmlsec1-dev \
+  git
 
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
@@ -21,6 +22,7 @@ RUN pip install simplejson
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
 RUN ln -s /reposado/code/preferences.plist /home/app/margarita
+RUN mkdir -p /reposado/metadata
 RUN pip install -r /home/app/margarita/requirements.txt
 
 VOLUME /reposado/code
@@ -29,5 +31,5 @@ EXPOSE 8080
 RUN rm -f /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nginx/down
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-ADD entry.sh /entry.sh
-CMD ["python", "/home/app/margarita/run.py", "runserver" ]
+ADD start.sh /start.sh
+CMD ["/bin/bash", "/start.sh"]
