@@ -32,12 +32,9 @@ You can run the Margarita Flask server either together with nginx, by opening bo
 #Margarita SAML
 
 ```
-/usr/bin/docker run --rm --name margarita --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH=True SAML python /home/app/margarita/run.py
+/usr/bin/docker run --rm --name margarita -p 80:8080 -p 443:443 -p 8089:8089 w0de/reposado SAML_AUTH=True SAML python /home/app/margarita/run.py runserver
 ```
 
-```
-/usr/bin/docker run --rm --name margarita --volumes-from reposado-data -p 8089:8089 w0de/reposado SAML_AUTH=FALSE SAML python /home/app/margarita/run.py
-```
 
 #TODO
 * passenger_wsgi script for margarita
