@@ -2,7 +2,7 @@
 # sure you lock down to a specific version, not to `latest`!
 # See https://github.com/phusion/passenger-docker/blob/master/Changelog.md for
 # a list of version numbers.
-FROM phusion/passenger-full:1.0.6
+FROM nginx:stable-alpine
 
 # Set correct environment variables.
 ENV HOME /root
@@ -17,7 +17,6 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
 ADD reposado.conf /etc/nginx/sites-enabled/reposado.conf
-RUN pip install flask
 RUN pip install simplejson
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
@@ -31,4 +30,4 @@ RUN rm -f /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nginx/down
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 ADD entry.sh /entry.sh
-CMD ["/bin/bash", "/entry.sh"]
+CMD ["python", "/home/app/margarita/run.py", "runserver" ]
