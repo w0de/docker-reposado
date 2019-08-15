@@ -1,44 +1,29 @@
 docker-reposado
 ===============
 
-Docker container to run reposado and serve softwareupdates using nginx
+## About
 
-sample usage.
+This container and associated instructions assume you'd like margarita run. Consider upstream if margarita is not important to you.
 
-```
- docker run --rm -i -t macadmins/reposado python /reposado/code/repoutil --help
- ```
- To have persistent storage, use a volume container. Example:
- ```
- docker run --rm -i -t --volumes-from reposado-data macadmins/reposado python /reposado/code/repo_sync
- ```
- You can also mount external, previously used cache:
- ```
- --mount type=bind,source=/data/reposado,target=/reposado/html
- ```
+Additionally, repo_sync runs on every boot.
 
-You can schedule the above command via cron/systemd or run it manually.
+## Margarita SAML
 
-##Note
-Currently, the port *has* to be 8080 for both the container and the host. The LocalCatalogBaseURL is http://reposado:8080
+This uses my fork of margarita, which is SAML-enabled. To configure, see instructions at [Margarita](https://github.com/w0de/margarita) - mount your SAML configuration directory to `/home/app/saml`. You may skip SAML by simply not passing SAML_AUTH_ENABLED environment variable.
 
-#Margarita
-[Margarita](https://github.com/w0de/margarita) (saml-enabled-fork) is also bundled in but not enabled by default.
-You can run the Margarita Flask server either together with nginx, by opening both -p 8080 and -p 8089 or separately like so:
-```
-/usr/bin/docker run --rm --name margarita   --mount type=bind,source=/data/reposado,target=/reposado/html --mount type=bind,source=/data/metadata,target=/reposado/metadata --mount type=bind,source=/data/saml,target=/home/app/saml --volumes-from reposado-data -p 80:80 -p 443:443 -p 8089:8089 w0de/reposado SAML_AUTH_ENABLED=True SAML_PATH=/home/app/saml python /home/app/margarita/run.py
-```
 
-#Margarita SAML
+This container runs margarita with the inbuilt python webserver, since usage is expected to be low. Nginx provides reposado.
+
+## Usage
+This container expects the operator to mount a volume on the host to contain the cached Apple updates. It should be mounted to `/reposado/html`. It is also recommended to preserve your metadata (catalogs, etc) by mounting a directory to `/reposado/metadata`. To u
+
+This is an example command will start reposado/margarita all features enabled:
 
 ```
-/usr/bin/docker run --rm --name margarita -p 80:80 -p 443:443 -p 8089:8089 w0de/reposado SAML_AUTH=True SAML python /home/app/margarita/run.py runserver
+/usr/bin/docker run --rm --name margarita --mount type=bind,source=/data/reposado,target=/reposado/html --mount type=bind,source=/data/metadata,target=/reposado/metadata -p 80:80 -p 443:443 -p 8089:8089 -e SAML_AUTH_ENABLED=True w0de/reposado
 ```
-
 
 #TODO
-* passenger_wsgi script for margarita
-* nginx configuration file for margarita
-* move reposado.conf and margarita.conf to sites-available and symlink to sites-enabled as needed
-* basic authentication for margarita
+* wsgi for margarita?
+* basic authentication for margarita - done!
 * allow using a different LocalCatalogBaseURL (suggestions welcome)

@@ -7,6 +7,7 @@ FROM nginx:mainline
 # Set correct environment variables.
 ENV HOME /root
 ENV LOCALCATALOGURLBASE http://reposado
+ENV SAML_PATH /home/app/saml
 
 RUN apt-get update && apt-get install -y \
   python-pip \
