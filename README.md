@@ -15,7 +15,7 @@ This uses my fork of margarita, which is SAML-enabled. To configure, see instruc
 This container runs margarita with the inbuilt python webserver, since usage is expected to be low. Nginx provides reposado.
 
 ## Usage
-This container expects the operator to mount a volume on the host to contain the cached Apple updates. It should be mounted to `/reposado/html`. It is also recommended to preserve your metadata (catalogs, etc) by mounting a directory to `/reposado/metadata`. To u
+This container expects the operator to mount a volume on the host to contain the cached Apple updates. It should be mounted to `/reposado/html`. It is also recommended to preserve your metadata (catalogs, etc) by mounting a directory to `/reposado/metadata`. 
 
 This is an example command will start reposado/margarita all features enabled:
 
