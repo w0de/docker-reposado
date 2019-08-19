@@ -18,19 +18,22 @@ RUN apt-get update && apt-get install -y \
 
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
-ADD reposado.conf /etc/nginx/sites-enabled/reposado.conf
 RUN pip install simplejson
 
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
 RUN ln -s /reposado/code/reposadolib /home/app/margarita
 RUN ln -s /reposado/code/preferences.plist /home/app/margarita
+RUN ln -s /reposado/code/preferences.plist /usr/share/passenger/helper-scripts/
 RUN pip install -r /home/app/margarita/requirements.txt
-ADD margarita.conf /etc/nginx/site-enabled/margarita.conf
+ADD reposado.conf /etc/nginx/sites-enabled/reposado.conf
+ADD margarita.conf /etc/nginx/sites-enabled/margarita.conf
 ADD passenger_wsgi.py /home/app/margarita/passenger_wsgi.py
+RUN mkdir -p /home/app/margarita/public
 RUN chown -R app:app /home/app/margarita
 
 VOLUME /reposado/code
 EXPOSE 80
+EXPOSE 8089
 
 RUN rm -f /etc/nginx/sites-enabled/default
 RUN rm -f /etc/service/nginx/down
