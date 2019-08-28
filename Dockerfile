@@ -20,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
 ADD write_config.py /
-RUN python3 /write_config.py
+RUN chmod +x /write_config.py
 RUN pip install simplejson
 
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
