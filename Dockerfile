@@ -12,12 +12,15 @@ ENV SAML_PATH /home/app/saml
 RUN apt-get update && apt-get install -y \
   python-pip \
   python-dev \
+  python3 \
   curl \
   libxmlsec1-dev \
   git
 
 RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
+ADD write_config.py /
+RUN chmod +x /write_config.py
 RUN pip install simplejson
 
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita

@@ -15,15 +15,17 @@ This uses my fork of margarita, which is SAML-enabled. To configure, see instruc
 This container runs margarita with the inbuilt python webserver, since usage is expected to be low. Nginx provides reposado.
 
 ## Usage
-This container expects the operator to mount a volume on the host to contain the cached Apple updates. It should be mounted to `/reposado/html`. It is also recommended to preserve your metadata (catalogs, etc) by mounting a directory to `/reposado/metadata`. 
+This container expects the operator to mount a volume on the host to contain the cached Apple updates. It should be mounted to `/reposado/html`. It is also recommended to preserve your metadata (catalogs, etc) by mounting a directory to `/reposado/metadata`.
+
+You may define settings reposado preferences by passing in environment variables proceeded by `REPOSADO_`. For instance: `REPOSADO_LocalCatalogURLBase=https://asus.corp.net`. Note this is not tested with non-string values.
 
 This is an example command will start reposado/margarita all features enabled:
 
 ```
-/usr/bin/docker run --rm --name margarita --mount type=bind,source=/data/reposado,target=/reposado/html --mount type=bind,source=/data/metadata,target=/reposado/metadata -p 80:80 -p 443:443 -p 8089:8089 -e SAML_AUTH_ENABLED=True w0de/reposado
+/usr/bin/docker run --rm --name margarita --mount type=bind,source=/data/reposado,target=/reposado/html --mount type=bind,source=/data/metadata,target=/reposado/metadata -p 80:80 -p 443:443 -p 8089:8089 -e SAML_AUTH_ENABLED=True -e REPOSADO_LocalCatalogURLBase=https://asus.corp.net w0de/reposado
 ```
 
 #TODO
 * wsgi for margarita?
 * basic authentication for margarita - done!
-* allow using a different LocalCatalogBaseURL (suggestions welcome)
+* allow using a different LocalCatalogBaseURL - done!
