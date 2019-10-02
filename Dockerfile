@@ -21,6 +21,8 @@ RUN git clone https://github.com/wdas/reposado.git /reposado
 ADD preferences.plist /reposado/code/
 ADD write_config.py /
 RUN chmod +x /write_config.py
+ADD sync_and_clean.sh /
+RUN chmod +x /sync_and_clean.sh
 RUN pip install simplejson
 
 RUN git clone https://github.com/w0de/margarita.git /home/app/margarita
